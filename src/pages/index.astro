@@ -1,0 +1,374 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getProfile } from "../lib/profiles";
+
+const profile = getProfile("main");
+const { frontmatter, Content } = profile;
+const summaryTitle = "Summary";
+const name = frontmatter.name ?? "";
+const title = frontmatter.title ?? "";
+const location = frontmatter.location ?? "";
+const links = frontmatter.links ?? {};
+const resume = frontmatter.resume ?? "/resume.pdf";
+const experience = frontmatter.experience ?? [];
+const experienceFirst = experience.slice(0, 3);
+const experienceRest = experience.slice(3);
+const education = frontmatter.education ?? [];
+const skills = frontmatter.skills ?? {};
+const publications = frontmatter.publications ?? [];
+const abstracts = frontmatter.abstracts ?? [];
+const publicationsSorted = [...publications].sort((a, b) => (b.year ?? 0) - (a.year ?? 0));
+const abstractsSorted = [...abstracts].sort((a, b) => (b.year ?? 0) - (a.year ?? 0));
+const interests = frontmatter.interests ?? [];
+---
+<BaseLayout title={`${name} · ${title}`} description={summaryTitle}>
+  <main class="container fade-in">
+    <section class="hero">
+      <div class="stagger">
+        <div class="eyebrow">Portfolio</div>
+        <h1>{name}</h1>
+        <p class="tagline">
+          {title} · {location}
+        </p>
+        <div class="links">
+          {links.linkedin ? (
+            <a class="button secondary" href={links.linkedin} target="_blank" rel="noreferrer">
+              LinkedIn
+            </a>
+          ) : null}
+          {links.email ? (
+            <a class="button secondary" href={links.email}>
+              Email
+            </a>
+          ) : null}
+          <a class="button projects" href="/projects/main">
+            Projects (Coming Soon)
+          </a>
+          <a class="button" href={resume} download>
+            Download Resume
+          </a>
+        </div>
+      </div>
+      <div class="card">
+        <h3>{summaryTitle}</h3>
+        <Content />
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <h2>Work Experience</h2>
+      </div>
+      <div class="grid one">
+        {experienceFirst.map((company: any) => (
+          <article class="card">
+            <div class="card-row">
+              <h3 class="card-title">
+                {company.companyUrl ? (
+                  <a href={company.companyUrl} target="_blank" rel="noreferrer">
+                    {company.company}
+                  </a>
+                ) : (
+                  company.company
+                )}
+              </h3>
+              <p class="meta right">{company.location}</p>
+            </div>
+            {company.highlights?.length ? (
+              <ul class="tags">
+                {company.highlights.map((item: string) => (
+                  <li class="tag">{item}</li>
+                ))}
+              </ul>
+            ) : null}
+            <div class="grid">
+              {company.roles?.map((role: any) => (
+                <div>
+                  <div class="card-row">
+                    <h3>
+                      {role.roleUrl ? (
+                        <a href={role.roleUrl} target="_blank" rel="noreferrer">
+                          {role.title}
+                        </a>
+                      ) : (
+                        role.title
+                      )}
+                    </h3>
+                    <p class="meta right">
+                      {role.start} — {role.end}
+                    </p>
+                  </div>
+                  {role.highlights?.length ? (
+                    <ul class="list">
+                      {role.highlights.map((item: string) => (
+                        <li set:html={item}></li>
+                      ))}
+                    </ul>
+                  ) : null}
+                </div>
+              ))}
+            </div>
+          </article>
+        ))}
+        {experienceRest.map((company: any) => (
+          <article class="card experience-extra is-hidden">
+            <div class="card-row">
+              <h3 class="card-title">
+                {company.companyUrl ? (
+                  <a href={company.companyUrl} target="_blank" rel="noreferrer">
+                    {company.company}
+                  </a>
+                ) : (
+                  company.company
+                )}
+              </h3>
+              <p class="meta right">{company.location}</p>
+            </div>
+            {company.highlights?.length ? (
+              <ul class="tags">
+                {company.highlights.map((item: string) => (
+                  <li class="tag">{item}</li>
+                ))}
+              </ul>
+            ) : null}
+            <div class="grid">
+              {company.roles?.map((role: any) => (
+                <div>
+                  <div class="card-row">
+                    <h3>
+                      {role.roleUrl ? (
+                        <a href={role.roleUrl} target="_blank" rel="noreferrer">
+                          {role.title}
+                        </a>
+                      ) : (
+                        role.title
+                      )}
+                    </h3>
+                    <p class="meta right">
+                      {role.start} — {role.end}
+                    </p>
+                  </div>
+                  {role.highlights?.length ? (
+                    <ul class="list">
+                      {role.highlights.map((item: string) => (
+                        <li set:html={item}></li>
+                      ))}
+                    </ul>
+                  ) : null}
+                </div>
+              ))}
+            </div>
+          </article>
+        ))}
+      </div>
+      {experienceRest.length ? (
+        <div class="section-actions">
+          <button class="button more" type="button" data-exp-toggle>
+            See more
+          </button>
+        </div>
+      ) : null}
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <h2>Education</h2>
+      </div>
+      <div class="grid two">
+        {education.map((item: any) => (
+          <article class="card">
+            <h3>{item.degree}</h3>
+            <p class="meta">{item.university}</p>
+            <p class="meta">
+              {item.start} — {item.end}
+            </p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <h2>Skills</h2>
+      </div>
+      <div class="grid three">
+        <article class="card">
+          <h3>Programming & AI</h3>
+          <ul class="tags">
+            {(skills.programming_ai ?? []).map((item: string) => (
+              <li class="tag">{item}</li>
+            ))}
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Cloud Tools</h3>
+          <ul class="tags">
+            {(skills.cloud_tools ?? []).map((item: string) => (
+              <li class="tag">{item}</li>
+            ))}
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Domain Expertise</h3>
+          <ul class="tags">
+            {(skills.domain_expertise ?? []).map((item: string) => (
+              <li class="tag">{item}</li>
+            ))}
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <details class="collapse" data-filter="publications">
+        <summary class="collapse-title">Publications</summary>
+        <div class="filter-row">
+          <span class="filter-label">Effort level</span>
+          <label class="filter-option">
+            <input type="checkbox" value="high" checked />
+            High
+          </label>
+          <label class="filter-option">
+            <input type="checkbox" value="medium" checked />
+            Medium
+          </label>
+          <label class="filter-option">
+            <input type="checkbox" value="low" checked />
+            Low
+          </label>
+        </div>
+        <div class="grid two">
+          {publicationsSorted.map((pub: any) => {
+            const venue =
+              `${pub.venue ?? ""}`.toLowerCase().includes("arxiv") ? "Preprint" : pub.venue;
+            return (
+              <article class="card filter-item" data-effort={pub.effort ?? ""}>
+                <div class="card-row">
+                  <h3>
+                    {pub.link ? (
+                      <a href={pub.link} target="_blank" rel="noreferrer">
+                        {pub.title}
+                      </a>
+                    ) : (
+                      pub.title
+                    )}
+                  </h3>
+                  {pub.effort ? (
+                    <span class={`effort-pill effort-${pub.effort}`}>
+                      {pub.effort}
+                    </span>
+                  ) : null}
+                </div>
+                <p class="meta">
+                  {venue} · {pub.year}
+                </p>
+                <p>{pub.abstract}</p>
+              </article>
+            );
+          })}
+        </div>
+      </details>
+    </section>
+
+    <section class="section">
+      <details class="collapse" data-filter="abstracts">
+        <summary class="collapse-title">Abstracts</summary>
+        <div class="filter-row">
+          <span class="filter-label">Effort level</span>
+          <label class="filter-option">
+            <input type="checkbox" value="high" checked />
+            High
+          </label>
+          <label class="filter-option">
+            <input type="checkbox" value="medium" checked />
+            Medium
+          </label>
+          <label class="filter-option">
+            <input type="checkbox" value="low" checked />
+            Low
+          </label>
+        </div>
+        <div class="grid two">
+          {abstractsSorted.map((item: any) => {
+            const venue =
+              `${item.venue ?? ""}`.toLowerCase().includes("arxiv") ? "Preprint" : item.venue;
+            return (
+              <article class="card filter-item" data-effort={item.effort ?? ""}>
+                <div class="card-row">
+                  <h3>
+                    {item.link ? (
+                      <a href={item.link} target="_blank" rel="noreferrer">
+                        {item.title}
+                      </a>
+                    ) : (
+                      item.title
+                    )}
+                  </h3>
+                  {item.effort ? (
+                    <span class={`effort-pill effort-${item.effort}`}>
+                      {item.effort}
+                    </span>
+                  ) : null}
+                </div>
+                <p class="meta">
+                  {venue} · {item.year}
+                </p>
+                <p>{item.abstract}</p>
+              </article>
+            );
+          })}
+        </div>
+      </details>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <h2>Interests</h2>
+      </div>
+      <div class="card">
+        <ul class="tags">
+          {interests.map((item: string) => (
+            <li class="tag">{item}</li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <span>© {new Date().getFullYear()} {name}</span>
+      <a href={resume} download>Download Resume</a>
+    </footer>
+  </main>
+
+  {experienceRest.length ? (
+    <script>
+      const toggle = document.querySelector("[data-exp-toggle]");
+      const extras = document.querySelectorAll(".experience-extra");
+      toggle?.addEventListener("click", () => {
+        const hidden = extras[0]?.classList.contains("is-hidden");
+        extras.forEach((el) => el.classList.toggle("is-hidden", !hidden));
+        if (toggle) toggle.textContent = hidden ? "Show less" : "See more";
+      });
+    </script>
+  ) : null}
+
+  <script>
+    document.querySelectorAll("details.collapse[data-filter]").forEach((section) => {
+      const checkboxes = section.querySelectorAll("input[type=\"checkbox\"]");
+      const items = section.querySelectorAll(".filter-item");
+      const applyFilter = () => {
+        const selected = Array.from(checkboxes)
+          .filter((box) => box.checked)
+          .map((box) => box.value);
+        const allowAll = selected.length === 0;
+        items.forEach((item) => {
+          const effort = item.getAttribute("data-effort") || "";
+          const show = allowAll || selected.includes(effort);
+          item.classList.toggle("is-hidden", !show);
+        });
+      };
+      checkboxes.forEach((box) => box.addEventListener("change", applyFilter));
+      applyFilter();
+    });
+  </script>
+</BaseLayout>
