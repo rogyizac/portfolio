@@ -223,26 +223,19 @@ const interests = frontmatter.interests ?? [];
       <details class="collapse" data-filter="publications">
         <summary class="collapse-title">Publications</summary>
         <div class="filter-row">
-          <span class="filter-label">Effort level</span>
+          <span class="filter-label">Filter</span>
           <label class="filter-option">
-            <input type="checkbox" value="high" checked />
-            High
-          </label>
-          <label class="filter-option">
-            <input type="checkbox" value="medium" checked />
-            Medium
-          </label>
-          <label class="filter-option">
-            <input type="checkbox" value="low" checked />
-            Low
+            <input type="checkbox" data-first-author-toggle />
+            First Author
           </label>
         </div>
         <div class="grid two">
           {publicationsSorted.map((pub: any) => {
             const venue =
               `${pub.venue ?? ""}`.toLowerCase().includes("arxiv") ? "Preprint" : pub.venue;
+            const isFirstAuthor = pub.effort === "high";
             return (
-              <article class="card filter-item" data-effort={pub.effort ?? ""}>
+              <article class="card filter-item" data-first-author={isFirstAuthor ? "true" : "false"}>
                 <div class="card-row">
                   <h3>
                     {pub.link ? (
@@ -253,11 +246,7 @@ const interests = frontmatter.interests ?? [];
                       pub.title
                     )}
                   </h3>
-                  {pub.effort ? (
-                    <span class={`effort-pill effort-${pub.effort}`}>
-                      {pub.effort}
-                    </span>
-                  ) : null}
+                  {isFirstAuthor ? <span class="effort-pill effort-first-author">First Author</span> : null}
                 </div>
                 <p class="meta">
                   {venue} · {pub.year}
@@ -274,26 +263,19 @@ const interests = frontmatter.interests ?? [];
       <details class="collapse" data-filter="abstracts">
         <summary class="collapse-title">Abstracts</summary>
         <div class="filter-row">
-          <span class="filter-label">Effort level</span>
+          <span class="filter-label">Filter</span>
           <label class="filter-option">
-            <input type="checkbox" value="high" checked />
-            High
-          </label>
-          <label class="filter-option">
-            <input type="checkbox" value="medium" checked />
-            Medium
-          </label>
-          <label class="filter-option">
-            <input type="checkbox" value="low" checked />
-            Low
+            <input type="checkbox" data-first-author-toggle />
+            First Author
           </label>
         </div>
         <div class="grid two">
           {abstractsSorted.map((item: any) => {
             const venue =
               `${item.venue ?? ""}`.toLowerCase().includes("arxiv") ? "Preprint" : item.venue;
+            const isFirstAuthor = item.effort === "high";
             return (
-              <article class="card filter-item" data-effort={item.effort ?? ""}>
+              <article class="card filter-item" data-first-author={isFirstAuthor ? "true" : "false"}>
                 <div class="card-row">
                   <h3>
                     {item.link ? (
@@ -304,11 +286,7 @@ const interests = frontmatter.interests ?? [];
                       item.title
                     )}
                   </h3>
-                  {item.effort ? (
-                    <span class={`effort-pill effort-${item.effort}`}>
-                      {item.effort}
-                    </span>
-                  ) : null}
+                  {isFirstAuthor ? <span class="effort-pill effort-first-author">First Author</span> : null}
                 </div>
                 <p class="meta">
                   {venue} · {item.year}
@@ -354,20 +332,17 @@ const interests = frontmatter.interests ?? [];
 
   <script>
     document.querySelectorAll("details.collapse[data-filter]").forEach((section) => {
-      const checkboxes = section.querySelectorAll("input[type=\"checkbox\"]");
+      const toggle = section.querySelector("[data-first-author-toggle]");
       const items = section.querySelectorAll(".filter-item");
       const applyFilter = () => {
-        const selected = Array.from(checkboxes)
-          .filter((box) => box.checked)
-          .map((box) => box.value);
-        const allowAll = selected.length === 0;
+        const onlyFirstAuthor = Boolean(toggle?.checked);
         items.forEach((item) => {
-          const effort = item.getAttribute("data-effort") || "";
-          const show = allowAll || selected.includes(effort);
+          const isFirstAuthor = item.getAttribute("data-first-author") === "true";
+          const show = !onlyFirstAuthor || isFirstAuthor;
           item.classList.toggle("is-hidden", !show);
         });
       };
-      checkboxes.forEach((box) => box.addEventListener("change", applyFilter));
+      toggle?.addEventListener("change", applyFilter);
       applyFilter();
     });
   </script>
