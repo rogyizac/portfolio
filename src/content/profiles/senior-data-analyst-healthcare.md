@@ -6,7 +6,7 @@ links:
   linkedin: "https://www.linkedin.com/in/rohan-isaac/"
   email: "mailto:rohan.isaac27@gmail.com"
   github: "https://github.com/rogyizac"
-resume: "/resume.pdf"
+resume: "/resumes/senior-data-analyst-healthcare/RohanSatyaIsaac.pdf"
 projects:
   - title: "Care Pathway Optimizer"
     description: "ML-driven workflow suggestions that improved oncology throughput."

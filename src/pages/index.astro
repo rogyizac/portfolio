@@ -20,6 +20,7 @@ const abstracts = frontmatter.abstracts ?? [];
 const publicationsSorted = [...publications].sort((a, b) => (b.year ?? 0) - (a.year ?? 0));
 const abstractsSorted = [...abstracts].sort((a, b) => (b.year ?? 0) - (a.year ?? 0));
 const interests = frontmatter.interests ?? [];
+const showProjects = false;
 ---
 <BaseLayout title={`${name} · ${title}`} description={summaryTitle}>
   <main class="container fade-in">
@@ -41,9 +42,11 @@ const interests = frontmatter.interests ?? [];
               Email
             </a>
           ) : null}
-          <a class="button projects" href="/projects/main">
-            Projects (Coming Soon)
-          </a>
+          {showProjects ? (
+            <a class="button projects" href="/projects/main">
+              Projects (Coming Soon)
+            </a>
+          ) : null}
           <a class="button" href={resume} download>
             Download Resume
           </a>

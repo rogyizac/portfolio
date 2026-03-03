@@ -6,7 +6,7 @@ links:
   linkedin: "https://www.linkedin.com/in/rohan-isaac/"
   email: "mailto:rohan.isaac27@gmail.com"
   github: "https://github.com/rogyizac"
-resume: "/resume.pdf"
+resume: "/resumes/data-scientist-healthcare/RohanSatyaIsaac.pdf"
 projects:
   - title: "Care Pathway Optimizer"
     description: "ML-driven workflow suggestions that improved oncology throughput."
@@ -238,4 +238,4 @@ interests:
   - "Travel"
   - "Cooking"
 ---
-Data Scientist with end-to-end experience from curating large clinical datasets for downstream AI tasks to developing and evaluating AI models. Skilled in building scalable data pipelines, conducting clinical analytics research, and integrating technical insights with clinical context. Experienced in effective cross-functional collaboration with clinicians, data scientists, engineers, and external partners.
+Data Scientist specializing in medical imaging AI and clinical data integration, with end-to-end experience in large-scale multimodal dataset curation (1M+ exams), foundation model and LLM adaptation, and commercial model evaluation. Build scalable pipelines integrating imaging, EHR, registry, and pathology data to enable clinical AI research and deployment, translating technical innovation into real-world clinical impact.
