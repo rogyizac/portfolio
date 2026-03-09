@@ -24,7 +24,15 @@ const showProjects = false;
 ---
 <BaseLayout title={`${name} · ${title}`} description={summaryTitle}>
   <main class="container fade-in">
-    <section class="hero">
+    <nav class="progress-rail" aria-label="Section progress">
+      <a class="progress-link is-active" href="#experience" data-progress-link="experience">Experience</a>
+      <a class="progress-link" href="#education" data-progress-link="education">Education</a>
+      <a class="progress-link" href="#skills" data-progress-link="skills">Skills</a>
+      <a class="progress-link" href="#publications" data-progress-link="publications">Publications</a>
+      <a class="progress-link" href="#abstracts" data-progress-link="abstracts">Abstracts</a>
+      <a class="progress-link" href="#interests" data-progress-link="interests">Interests</a>
+    </nav>
+    <section class="hero reveal-target">
       <div class="stagger">
         <div class="eyebrow">Portfolio</div>
         <h1>{name}</h1>
@@ -52,19 +60,23 @@ const showProjects = false;
           </a>
         </div>
       </div>
-      <div class="card">
+      <div class="card reveal-target">
         <h3>{summaryTitle}</h3>
         <Content />
       </div>
     </section>
 
-    <section class="section">
+    <section class="section reveal-target" data-exp-mode="detailed" id="experience" data-progress-section="experience">
       <div class="section-header">
         <h2>Work Experience</h2>
+        <div class="exp-view-toggle" role="group" aria-label="Work experience view mode">
+          <button type="button" class="is-active" data-exp-view="detailed">Detailed</button>
+          <button type="button" data-exp-view="compact">Compact</button>
+        </div>
       </div>
-      <div class="grid one">
+      <div class="grid one experience-timeline">
         {experienceFirst.map((company: any) => (
-          <article class="card">
+          <article class="card experience-card reveal-target">
             <div class="card-row">
               <h3 class="card-title">
                 {company.companyUrl ? (
@@ -78,7 +90,7 @@ const showProjects = false;
               <p class="meta right">{company.location}</p>
             </div>
             {company.highlights?.length ? (
-              <ul class="tags">
+              <ul class="tags experience-highlights">
                 {company.highlights.map((item: string) => (
                   <li class="tag">{item}</li>
                 ))}
@@ -102,7 +114,7 @@ const showProjects = false;
                     </p>
                   </div>
                   {role.highlights?.length ? (
-                    <ul class="list">
+                    <ul class="list role-highlights">
                       {role.highlights.map((item: string) => (
                         <li set:html={item}></li>
                       ))}
@@ -114,7 +126,7 @@ const showProjects = false;
           </article>
         ))}
         {experienceRest.map((company: any) => (
-          <article class="card experience-extra is-hidden">
+          <article class="card experience-card experience-extra is-hidden reveal-target">
             <div class="card-row">
               <h3 class="card-title">
                 {company.companyUrl ? (
@@ -128,7 +140,7 @@ const showProjects = false;
               <p class="meta right">{company.location}</p>
             </div>
             {company.highlights?.length ? (
-              <ul class="tags">
+              <ul class="tags experience-highlights">
                 {company.highlights.map((item: string) => (
                   <li class="tag">{item}</li>
                 ))}
@@ -152,7 +164,7 @@ const showProjects = false;
                     </p>
                   </div>
                   {role.highlights?.length ? (
-                    <ul class="list">
+                    <ul class="list role-highlights">
                       {role.highlights.map((item: string) => (
                         <li set:html={item}></li>
                       ))}
@@ -173,13 +185,13 @@ const showProjects = false;
       ) : null}
     </section>
 
-    <section class="section">
+    <section class="section reveal-target" id="education" data-progress-section="education">
       <div class="section-header">
         <h2>Education</h2>
       </div>
       <div class="grid two">
         {education.map((item: any) => (
-          <article class="card">
+          <article class="card reveal-target">
             <h3>{item.degree}</h3>
             <p class="meta">{item.university}</p>
             <p class="meta">
@@ -190,12 +202,12 @@ const showProjects = false;
       </div>
     </section>
 
-    <section class="section">
+    <section class="section reveal-target" id="skills" data-progress-section="skills">
       <div class="section-header">
         <h2>Skills</h2>
       </div>
       <div class="grid three">
-        <article class="card">
+        <article class="card reveal-target">
           <h3>Programming & AI</h3>
           <ul class="tags">
             {(skills.programming_ai ?? []).map((item: string) => (
@@ -203,7 +215,7 @@ const showProjects = false;
             ))}
           </ul>
         </article>
-        <article class="card">
+        <article class="card reveal-target">
           <h3>Cloud Tools</h3>
           <ul class="tags">
             {(skills.cloud_tools ?? []).map((item: string) => (
@@ -211,7 +223,7 @@ const showProjects = false;
             ))}
           </ul>
         </article>
-        <article class="card">
+        <article class="card reveal-target">
           <h3>Domain Expertise</h3>
           <ul class="tags">
             {(skills.domain_expertise ?? []).map((item: string) => (
@@ -222,15 +234,17 @@ const showProjects = false;
       </div>
     </section>
 
-    <section class="section">
+    <section class="section reveal-target" id="publications" data-progress-section="publications">
       <details class="collapse" data-filter="publications">
         <summary class="collapse-title">Publications</summary>
         <div class="filter-row">
           <span class="filter-label">Filter</span>
-          <label class="filter-option">
-            <input type="checkbox" data-first-author-toggle />
-            First Author
-          </label>
+          <div class="segmented-filter" role="group" aria-label="Publications filter">
+            <button type="button" class="is-active" data-first-author-toggle data-filter-mode="all">
+              All
+            </button>
+            <button type="button" data-first-author-toggle data-filter-mode="first">First Author</button>
+          </div>
         </div>
         <div class="grid two">
           {publicationsSorted.map((pub: any) => {
@@ -238,7 +252,10 @@ const showProjects = false;
               `${pub.venue ?? ""}`.toLowerCase().includes("arxiv") ? "Preprint" : pub.venue;
             const isFirstAuthor = pub.effort === "high";
             return (
-              <article class="card filter-item" data-first-author={isFirstAuthor ? "true" : "false"}>
+              <article
+                class="card filter-item reveal-target"
+                data-first-author={isFirstAuthor ? "true" : "false"}
+              >
                 <div class="card-row">
                   <h3>
                     {pub.link ? (
@@ -262,15 +279,17 @@ const showProjects = false;
       </details>
     </section>
 
-    <section class="section">
+    <section class="section reveal-target" id="abstracts" data-progress-section="abstracts">
       <details class="collapse" data-filter="abstracts">
         <summary class="collapse-title">Abstracts</summary>
         <div class="filter-row">
           <span class="filter-label">Filter</span>
-          <label class="filter-option">
-            <input type="checkbox" data-first-author-toggle />
-            First Author
-          </label>
+          <div class="segmented-filter" role="group" aria-label="Abstracts filter">
+            <button type="button" class="is-active" data-first-author-toggle data-filter-mode="all">
+              All
+            </button>
+            <button type="button" data-first-author-toggle data-filter-mode="first">First Author</button>
+          </div>
         </div>
         <div class="grid two">
           {abstractsSorted.map((item: any) => {
@@ -278,7 +297,10 @@ const showProjects = false;
               `${item.venue ?? ""}`.toLowerCase().includes("arxiv") ? "Preprint" : item.venue;
             const isFirstAuthor = item.effort === "high";
             return (
-              <article class="card filter-item" data-first-author={isFirstAuthor ? "true" : "false"}>
+              <article
+                class="card filter-item reveal-target"
+                data-first-author={isFirstAuthor ? "true" : "false"}
+              >
                 <div class="card-row">
                   <h3>
                     {item.link ? (
@@ -302,11 +324,11 @@ const showProjects = false;
       </details>
     </section>
 
-    <section class="section">
+    <section class="section reveal-target" id="interests" data-progress-section="interests">
       <div class="section-header">
         <h2>Interests</h2>
       </div>
-      <div class="card">
+      <div class="card reveal-target">
         <ul class="tags">
           {interests.map((item: string) => (
             <li class="tag">{item}</li>
@@ -321,32 +343,117 @@ const showProjects = false;
     </footer>
   </main>
 
-  {experienceRest.length ? (
-    <script>
-      const toggle = document.querySelector("[data-exp-toggle]");
-      const extras = document.querySelectorAll(".experience-extra");
-      toggle?.addEventListener("click", () => {
-        const hidden = extras[0]?.classList.contains("is-hidden");
-        extras.forEach((el) => el.classList.toggle("is-hidden", !hidden));
-        if (toggle) toggle.textContent = hidden ? "Show less" : "See more";
-      });
-    </script>
-  ) : null}
-
   <script>
+    const expSection = document.querySelector("[data-exp-mode]");
+    const expViewButtons = document.querySelectorAll("[data-exp-view]");
+    const setExperienceMode = (mode) => {
+      if (!expSection) return;
+      expSection.setAttribute("data-exp-mode", mode);
+      expViewButtons.forEach((button) => {
+        const isActive = button.getAttribute("data-exp-view") === mode;
+        button.classList.toggle("is-active", isActive);
+      });
+    };
+    expViewButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const next = button.getAttribute("data-exp-view");
+        if (next) setExperienceMode(next);
+      });
+    });
+
+    const expToggle = document.querySelector("[data-exp-toggle]");
+    const extras = document.querySelectorAll(".experience-extra");
+    expToggle?.addEventListener("click", () => {
+      const hidden = extras[0]?.classList.contains("is-hidden");
+      extras.forEach((el) => el.classList.toggle("is-hidden", !hidden));
+      if (expToggle) expToggle.textContent = hidden ? "Show less" : "See more";
+    });
+
     document.querySelectorAll("details.collapse[data-filter]").forEach((section) => {
-      const toggle = section.querySelector("[data-first-author-toggle]");
+      const toggles = section.querySelectorAll("[data-first-author-toggle]");
       const items = section.querySelectorAll(".filter-item");
+      let mode = "all";
       const applyFilter = () => {
-        const onlyFirstAuthor = Boolean(toggle?.checked);
+        const onlyFirstAuthor = mode === "first";
         items.forEach((item) => {
           const isFirstAuthor = item.getAttribute("data-first-author") === "true";
           const show = !onlyFirstAuthor || isFirstAuthor;
           item.classList.toggle("is-hidden", !show);
         });
       };
-      toggle?.addEventListener("change", applyFilter);
+      toggles.forEach((toggle) => {
+        toggle.addEventListener("click", () => {
+          mode = toggle.getAttribute("data-filter-mode") ?? "all";
+          toggles.forEach((item) => item.classList.remove("is-active"));
+          toggle.classList.add("is-active");
+          applyFilter();
+        });
+      });
       applyFilter();
     });
+
+    const progressSections = document.querySelectorAll("[data-progress-section]");
+    const progressLinks = document.querySelectorAll("[data-progress-link]");
+    if (progressSections.length && progressLinks.length) {
+      const setActiveProgress = (id) => {
+        progressLinks.forEach((link) => {
+          const isActive = link.getAttribute("data-progress-link") === id;
+          link.classList.toggle("is-active", isActive);
+        });
+      };
+      const getCurrentProgressId = () => {
+        const marker = window.scrollY + Math.min(window.innerHeight * 0.32, 260);
+        let current = progressSections[0]?.getAttribute("data-progress-section");
+        progressSections.forEach((section) => {
+          if (section.offsetTop <= marker) {
+            current = section.getAttribute("data-progress-section");
+          }
+        });
+        return current;
+      };
+      const syncProgress = () => {
+        const current = getCurrentProgressId();
+        if (current) setActiveProgress(current);
+      };
+      let ticking = false;
+      const handleScroll = () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          syncProgress();
+          ticking = false;
+        });
+      };
+      progressLinks.forEach((link) => {
+        link.addEventListener("click", () => {
+          const id = link.getAttribute("data-progress-link");
+          if (id) setActiveProgress(id);
+          setTimeout(syncProgress, 220);
+        });
+      });
+      window.addEventListener("scroll", handleScroll, { passive: true });
+      window.addEventListener("resize", handleScroll);
+      window.addEventListener("hashchange", syncProgress);
+      syncProgress();
+    }
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const revealTargets = document.querySelectorAll(".reveal-target");
+    if (reduceMotion || !("IntersectionObserver" in window)) {
+      revealTargets.forEach((item) => item.classList.add("is-visible"));
+    } else {
+      const observer = new IntersectionObserver(
+        (entries, obs) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              obs.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.14, rootMargin: "0px 0px -8% 0px" },
+      );
+      revealTargets.forEach((item) => observer.observe(item));
+    }
   </script>
 </BaseLayout>

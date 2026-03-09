@@ -196,6 +196,14 @@ const { title = "Portfolio", description = "" } = Astro.props;
         box-shadow: 0 16px 26px rgba(10, 127, 99, 0.25);
       }
 
+      @media (hover: hover) and (pointer: fine) {
+        .card:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 24px 38px rgba(15, 27, 43, 0.12);
+          border-color: rgba(10, 127, 99, 0.24);
+        }
+      }
+
       .section {
         margin-top: 64px;
       }
@@ -208,6 +216,83 @@ const { title = "Portfolio", description = "" } = Astro.props;
         margin-bottom: 24px;
       }
 
+      .progress-rail {
+        position: fixed;
+        left: 22px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 20;
+        display: grid;
+        gap: 8px;
+      }
+
+      .progress-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.72);
+        color: var(--ink-soft);
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.01em;
+        transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+      }
+
+      .progress-link::before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        border-radius: 999px;
+        background: rgba(15, 27, 43, 0.24);
+      }
+
+      .progress-link.is-active {
+        background: var(--accent);
+        border-color: transparent;
+        color: #fff;
+        transform: translateX(4px);
+      }
+
+      .progress-link.is-active::before {
+        background: rgba(255, 255, 255, 0.92);
+      }
+
+      [data-theme="dark"] .progress-link {
+        background: rgba(20, 32, 51, 0.78);
+      }
+
+      .exp-view-toggle {
+        display: inline-flex;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.66);
+        padding: 4px;
+      }
+
+      [data-theme="dark"] .exp-view-toggle {
+        background: rgba(20, 32, 51, 0.72);
+      }
+
+      .exp-view-toggle button {
+        border: 0;
+        background: transparent;
+        color: var(--ink-soft);
+        font: inherit;
+        font-weight: 700;
+        border-radius: 999px;
+        padding: 8px 14px;
+        cursor: pointer;
+        transition: background 0.2s ease, color 0.2s ease;
+      }
+
+      .exp-view-toggle button.is-active {
+        background: var(--accent);
+        color: #fff;
+      }
+
       .card {
         background: rgba(255, 255, 255, 0.78);
         border-radius: var(--radius);
@@ -216,6 +301,10 @@ const { title = "Portfolio", description = "" } = Astro.props;
         box-shadow: 0 18px 32px rgba(15, 27, 43, 0.08);
         backdrop-filter: blur(10px);
         color: var(--ink);
+        transition:
+          transform 0.24s ease,
+          box-shadow 0.24s ease,
+          border-color 0.24s ease;
       }
 
       [data-theme="dark"] .hero,
@@ -453,6 +542,54 @@ const { title = "Portfolio", description = "" } = Astro.props;
         display: none;
       }
 
+      [data-exp-mode="compact"] .experience-highlights,
+      [data-exp-mode="compact"] .role-highlights {
+        display: none;
+      }
+
+      [data-exp-mode="compact"] .experience-card .grid {
+        gap: 10px;
+      }
+
+      .experience-timeline {
+        position: relative;
+        gap: 18px;
+        padding-left: 26px;
+      }
+
+      .experience-timeline::before {
+        content: "";
+        position: absolute;
+        left: 10px;
+        top: 8px;
+        bottom: 8px;
+        width: 2px;
+        border-radius: 999px;
+        background: linear-gradient(180deg, var(--accent), rgba(10, 127, 99, 0.2));
+      }
+
+      .experience-card {
+        position: relative;
+      }
+
+      .experience-card::before {
+        content: "";
+        position: absolute;
+        left: -21px;
+        top: 24px;
+        width: 12px;
+        height: 12px;
+        border-radius: 999px;
+        border: 2px solid var(--accent);
+        background: rgba(255, 255, 255, 0.96);
+        box-shadow: 0 0 0 5px rgba(10, 127, 99, 0.12);
+      }
+
+      [data-theme="dark"] .experience-card::before {
+        background: rgba(20, 32, 51, 0.95);
+        box-shadow: 0 0 0 5px rgba(63, 208, 178, 0.18);
+      }
+
       .section-actions {
         margin-top: 16px;
         display: flex;
@@ -519,6 +656,37 @@ const { title = "Portfolio", description = "" } = Astro.props;
       .filter-label {
         font-weight: 700;
         color: var(--ink);
+      }
+
+      .segmented-filter {
+        display: inline-flex;
+        align-items: center;
+        padding: 4px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.7);
+      }
+
+      .segmented-filter button {
+        border: 0;
+        background: transparent;
+        color: var(--ink-soft);
+        font: inherit;
+        font-size: 0.85rem;
+        font-weight: 700;
+        border-radius: 999px;
+        padding: 7px 12px;
+        cursor: pointer;
+        transition: background 0.2s ease, color 0.2s ease;
+      }
+
+      .segmented-filter button.is-active {
+        background: #0d4882;
+        color: #fff;
+      }
+
+      [data-theme="dark"] .segmented-filter {
+        background: rgba(20, 32, 51, 0.7);
       }
 
       [data-theme="dark"] details.collapse {
@@ -591,6 +759,31 @@ const { title = "Portfolio", description = "" } = Astro.props;
         .button.more {
           animation: none;
         }
+
+        .card {
+          transition: none;
+        }
+      }
+
+      .reveal-target {
+        opacity: 0;
+        transform: translateY(16px);
+        transition: opacity 0.56s ease, transform 0.56s ease;
+        will-change: opacity, transform;
+      }
+
+      .reveal-target.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .reveal-target,
+        .reveal-target.is-visible {
+          opacity: 1;
+          transform: none;
+          transition: none;
+        }
       }
 
       .fun-orb {
@@ -637,6 +830,12 @@ const { title = "Portfolio", description = "" } = Astro.props;
         .theme-toggle {
           right: 16px;
           bottom: 16px;
+        }
+      }
+
+      @media (max-width: 1180px) {
+        .progress-rail {
+          display: none;
         }
       }
     </style>
