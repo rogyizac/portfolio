@@ -72,7 +72,12 @@ const showProjects = false;
       </div>
     </section>
 
-    <section class="section reveal-target" data-exp-mode="detailed" id="experience" data-progress-section="experience">
+    <section
+      class="section reveal-target is-visible"
+      data-exp-mode="detailed"
+      id="experience"
+      data-progress-section="experience"
+    >
       <div class="section-header">
         <h2>Work Experience</h2>
         <div class="exp-view-toggle" role="group" aria-label="Work experience view mode">
@@ -82,7 +87,7 @@ const showProjects = false;
       </div>
       <div class="grid one experience-timeline">
         {experienceFirst.map((company: any) => (
-          <article class="card experience-card reveal-target">
+          <article class="card experience-card reveal-target is-visible">
             <div class="card-row">
               <h3 class="card-title">
                 {company.companyUrl ? (
