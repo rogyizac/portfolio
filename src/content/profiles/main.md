@@ -154,28 +154,31 @@ publications:
     abstract: "S Purkayastha, R Isaac, S Anthony, S Shukla, EA Krupinski, JA Danish, ..."
   - title: "Subgroup Performance of a Commercial Digital Breast Tomosynthesis Model for Breast Cancer Detection"
     venue: "Nature Communications"
-    year: 2025
+    year: 2026
     effort: "high"
+    link: "https://doi.org/10.1038/s41467-026-70637-3"
     abstract: "B Brown-Mulry, RS Isaac, SH Lee, A Seth, KJ Min, T Dapamede, F Li, ..."
   - title: "Measuring impact of radiologist-AI collaboration: Efficiency, accuracy, and clinical impact"
     venue: "ISBI"
     year: 2024
     effort: "high"
     abstract: "S Purkayastha, R Isaac, A Veldandi, R Saxena, P Singh, P Vaswani, ..."
-  - title: "Impact of label noise from large language models generated annotations on evaluation of diagnostic model performance"
+  - title: "Impact of Label Noise from Large Language Model-Generated Annotations on Evaluation of Diagnostic Model Performance"
     venue: "Radiology: Artificial Intelligence"
-    year: 2025
+    year: 2026
     effort: "low"
+    link: "https://doi.org/10.1148/ryai.250477"
     abstract: "M Chavoshi, H Trivedi, A Mansuri, J Newsome, CR Sanyika, ..."
   - title: "Evaluating Vision Language Models (VLMs) for Radiology: A Comprehensive Analysis"
     venue: "Preprint"
     year: 2025
     effort: "low"
     abstract: "F Li, H Trivedi, B Khosravi, T Dapamede, M Chavoshi, A Dere, RS Isaac, ..."
-  - title: "Novel AI-Based Quantification of Breast Arterial Calcification to Predict Cardiovascular Risk"
-    venue: "Preprint"
-    year: 2025
+  - title: "Artificial Intelligence-Based Quantification of Breast Arterial Calcifications to Predict Cardiovascular Morbidity and Mortality"
+    venue: "European Heart Journal"
+    year: 2026
     effort: "medium"
+    link: "https://doi.org/10.1093/eurheartj/ehag128"
     abstract: "T Dapamede, A Urooj, V Joshi, G Gershon, F Li, M Chavoshi, ..."
   - title: "Real-world performance evaluation of a commercial deep learning model for intracranial hemorrhage detection"
     venue: "npj Digital Medicine"
